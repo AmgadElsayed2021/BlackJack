@@ -1,13 +1,14 @@
 import random
 import csv
 
+# search google for python samples for cards to make it looks real
+suits = ['\u2660', '\u2661', '\u2662', '\u2663']
+#  since the console want names for suits instead of pics so lets stick to it
+# suits = [' of Hearts' , ' of Spades' , ' of Clubs' , ' of Diamonds']
+ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
 
 def shuffleDeck():
-    # search google for python samples for cards to make it looks real
-    suits = ['\u2660', '\u2661', '\u2662', '\u2663']
-    #  since the console want names for suits instead of pics so lets stick to it
-    # suits = [' of Hearts' , ' of Spades' , ' of Clubs' , ' of Diamonds']
-    ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
+
     deck = []
 
     # create deck of 52 cards
@@ -28,12 +29,10 @@ def readFile():
             for row in reader:
                 Bet.append(row)
             print(f'money: {Bet[0][0]} $')
-    except FileNotFoundError as e:
-        print(e)
     except OSError as e:
         print(e)
     except Exception as e:
-        print()
+        print(type(e))
 
 
 def writeFile():
@@ -45,19 +44,55 @@ def writeFile():
     except OSError as e:
         print(e)
     except Exception as e:
-        print()
+        print(type(e), e)
+
+# def print_cards(cards):
+#     s = ""
+#     for card in cards:
+#         s = s + "\t _______ "
+#     print(s)
+#
+#
+#     s = ""
+#     for card in cards:
+#         if card.rank == '10':
+#             s = s + "\t| {}    |".format(card.rank)
+#         else:
+#             s = s + "\t| {}     |".format(card.rank)
+#
+#     print(s)
+#
+#     s = ""
+#     for card in cards:
+#         s = s + "\t|   {}   |".format(card.suit)
+#     print(s)
+#
+#     s = ""
+#     for card in cards:
+#         if card.value == '10':
+#             s = s + "\t|    {} |".format(card.rank)
+#         else:
+#             s = s + "\t|    {}  |".format(card.rank)
+#     print(s)
+#
+#     s = ""
+#     for card in cards:
+#         s = s + "\t|_______|"
+#     print(s)
+#
+#     print()
 
 
-def dealTheCards(deck, player):
+def dealTheCards(deck, hand):
     card = deck.pop()
-    player.append(card)
+    hand.append(card)
     return card
 
 
 def totalCardsValue(hand):
     try:
-        cardsValues = {"A": 11, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9, "10": 10,
-                       "J": 10, "Q": 10, "K": 10}
+
+
         result = 0
         AcesCount = 0
         # check how many aces on hand
@@ -66,36 +101,62 @@ def totalCardsValue(hand):
             if card[0] == 'A':
                 AcesCount += 1
 
-        while result > 21 and AcesCount > 0:
-            result -= 10
-            AcesCount -= 1
+                while result > 21 and AcesCount > 0:
+                    result -= 10
+                    AcesCount -= 1
         return result
-    except ValueError as e:
+    except KeyError as e:
+        print(card , "has this issue" , e)
+    except OSError as e:
+        print(e)
+    except Exception as e:
+        print(type(e), e)
+
+
+def comparePlayersTotalAndDeclareWinner(house, player):
+    houseTotal = int(totalCardsValue(house))
+    playerTotal = int(totalCardsValue(player))
+
+    try:
+        if (playerTotal == 21) or (houseTotal < playerTotal <= 21) or (houseTotal > 21):
+            print('\nDealer Cards:')
+            for i in range(len(house)):
+                print(house[i])
+            print('YOUR POINTS:\t', totalCardsValue(player))
+            print(totalCardsValue(house))
+            print('You won!')
+        elif houseTotal == 21 or (playerTotal < houseTotal <= 21) or playerTotal > 21:
+            print('\nDealer Cards:')
+            for i in range(len(house)):
+                print(house[i])
+            print('You lose !')
+        else:
+            print('\nDealer Cards:')
+            for i in range(len(house)):
+                print(house[i])
+            print("it's a Tie!")
+
+    except KeyError as e:
         print(e)
     except OSError as e:
         print(e)
     except Exception as e:
-        print()
-
-
-def comparePlayersTotalAndDeclareWinner(house, player):
-    houseTotal = totalCardsValue(house)
-    playerTotal = totalCardsValue(player)
-    if playerTotal == 21 or (houseTotal < playerTotal <= 21) or houseTotal > 21:
-        print('You won!')
-    elif houseTotal == 21 or (playerTotal < houseTotal <= 21) or playerTotal > 21:
-        print('You lose !')
-    else:
-        print("it's a Tie!")
+        print(e)
 
 
 def main():
+    print(ranks[8])
+    house = []
+    player = []
+
+    houseTotal = 0
+    playerTotal = 0
+
     print('Black Jack!\nBlack jack payout is 3:2\n')
     readFile()
     BetAmount = input('Bet amount:\t')
     print()
-    house = []
-    player = []
+
     deck = shuffleDeck()
 
     for i in range(2):
@@ -103,6 +164,8 @@ def main():
         dealTheCards(deck, player)
     print('Dealer Show Card:\n', house[0], '\n')
     print('YourCards:\n', player[0], '\n', player[1])
+    if totalCardsValue(player) == 21:
+        print('You win!')
 
     #  start asking user for hit or stand
     # i need to use a while loop here
@@ -110,35 +173,31 @@ def main():
 
     while choice.lower() == "hit":
         print('\nYour Cards:')
-        card = dealTheCards(deck, player)
+        dealTheCards(deck, player)
         for i in range(len(player)):
             print(player[i])
-
         if totalCardsValue(player) > 21:
             print('You bust! ...house wins!')
-            return
-        if totalCardsValue(player) == 21:
+
+        if playerTotal == 21:
             print('You win!')
-            return
+
         choice = input('\nHit or Stand? (hit/stand):')
 
     # from what i learnt from videos the house has to play again once the user stand and house score is less than 17
     # so lets try it
     # remember to use a while loop here as well
+
     while totalCardsValue(house) < 17:
-        print('\nDealer Cards::')
-        card = dealTheCards(deck, house)
-        for i in range(len(player)):
-            print(player[i])
+        print('\nDealer Cards:')
+        dealTheCards(deck, house)
+        for i in range(len(house)):
+            print(house[i])
+        print(totalCardsValue(house))
         if totalCardsValue(house) > 21:
             print('house bust! ...you wins!')
-            return
-        comparePlayersTotalAndDeclareWinner(house, player)
 
-    #     last thing to check after the house exceeds 16 we need to compare the results and declare winner.
     comparePlayersTotalAndDeclareWinner(house, player)
-
-    return
 
 
 if __name__ == "__main__":
