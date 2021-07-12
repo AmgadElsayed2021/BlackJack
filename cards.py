@@ -52,7 +52,7 @@ def printCards(hand):
     s = ""
     for card in hand:
         if card[:2] == '10':
-            s = s + "\t|  {}    |".format(card[2:3])
+            s = s + "\t|   {}   |".format(card[2:3])
         else:
             s = s + "\t|   {}   |".format(card[1])
     print(s)
@@ -68,44 +68,6 @@ def printCards(hand):
     s = ""
     for card in hand:
         s = s + "\t'-------'"
-    print(s)
-
-    print()
-def ShowDealerCard(house):
-    s = ""
-    card = house[0]
-    for card in house:
-        s = s + "\t ````````"
-    print(s)
-
-    s = ""
-    for card in house:
-        if card[:2] == '10':
-            s = s + "\t|{}     |".format(card[:2])
-        else:
-            s = s + "\t| {}     |".format(card[0][0])
-
-    print(s)
-
-    s = ""
-    for card in house:
-        if card[:2] == '10':
-            s = s + "\t|  {}    |".format(card[2:3])
-        else:
-            s = s + "\t|   {}   |".format(card[1])
-    print(s)
-
-    s = ""
-    for card in house:
-        if card[:2] == '10':
-            s = s + "\t|     {}|".format(card[:2])
-        else:
-            s = s + "\t|     {} |".format(card[0])
-    print(s)
-
-    s = ""
-    for card in house:
-        s = s + "\t|_______|"
     print(s)
 
     print()

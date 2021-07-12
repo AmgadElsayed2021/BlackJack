@@ -4,6 +4,7 @@ import cards
 import BalanceCheck as Bc
 import game as g
 
+
 def main():
     house = []
     player = []
@@ -14,13 +15,13 @@ def main():
 
     if StartingBalance >= 5:
         playGame = str(input("\nwould you like to start the game (yes/no)"))
-        while playGame.lower() == "yes":
+        while playGame.lower() in {"yes", "", "YES", "Yes", "YEs", "yEs", "yeS"}:
             house.clear()
             player.clear()
             # StartingBalance = db.readFile()
             BetAmount = Bc.GetBetAmount()
             deck = cards.shuffleDeck()
-            g.GameStart(deck , house, player)
+            g.GameStart(deck, house, player)
             g.hitLoop(deck, player)
             g.stand(deck, house, player)
             win.BlackJack(house, player)
@@ -30,6 +31,7 @@ def main():
 
             playGame = str(input("\nwould you like to play another game (yes/no)"))
         print("\nBye!")
+
 
 if __name__ == "__main__":
     main()
