@@ -22,7 +22,7 @@ def GameStart(deck , house , player):
     for i in range(2):
         cards.dealTheCards(deck, player)
     if cards.totalCardsValue(player) < 21 and cards.totalCardsValue(house) < 21:
-        cards.displayDealerCards(house)
+        cards.UnShownCard(house)
         cards.dealTheCards(deck, house)
         cards.displayPlayerCards(player)
     else:

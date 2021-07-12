@@ -46,7 +46,6 @@ def printCards(hand):
             s = s + "\t|{}     |".format(card[:2])
         else:
             s = s + "\t| {}     |".format(card[0][0])
-
     print(s)
 
     s = ""
@@ -70,6 +69,40 @@ def printCards(hand):
         s = s + "\t'-------'"
     print(s)
 
+    print()
+def UnShownCard(hand):
+    # for i in range(len(hand)):
+    s = ""
+    s = s + "\t _______\t _______ "
+    print(s)
+
+    s = ""
+    for card in hand:
+        if card[:2] == '10':
+            s = s + "\t|{}     |\t| ??    |".format(card[:2])
+        else:
+            s = s + "\t| {}     |\t| ??    |".format(card[0][0])
+    print(s)
+
+    s = ""
+    for card in hand:
+        if card[:2] == '10':
+            s = s + "\t|   {}   |\t|   ??  |".format(card[2:3])
+        else:
+            s = s + "\t|   {}   |\t|   ??  |".format(card[1])
+    print(s)
+
+    s = ""
+    for card in hand:
+        if card[:2] == '10':
+            s = s + "\t|     {}|\t|     ??|".format(card[:2])
+        else:
+            s = s + "\t|     {} |\t|     ??|".format(card[0])
+    print(s)
+
+    s = ""
+    s = s + "\t'-------'\t'-------'"
+    print(s)
     print()
 
 def displayPlayerCards(player):
