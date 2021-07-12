@@ -1,5 +1,3 @@
-import csv
-import sys
 
 def readFile():
     try:
