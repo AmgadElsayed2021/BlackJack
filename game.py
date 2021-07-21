@@ -14,8 +14,8 @@ def hitLoop(deck, player):
 
 def stand(deck, house, player):
     while cards.totalCardsValue(house) < 17 and cards.totalCardsValue(player) < 21 :
-        if cards.totalCardsValue(house) < cards.totalCardsValue(player):
-            cards.dealTheCards(deck, house)
+#         if cards.totalCardsValue(house) < cards.totalCardsValue(player):
+        cards.dealTheCards(deck, house)
 
 def GameStart(deck , house , player):
     cards.dealTheCards(deck, house)
